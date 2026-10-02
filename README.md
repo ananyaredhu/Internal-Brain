@@ -17,6 +17,20 @@ A permission-aware AI knowledge system over Confluence, Jira, Slack and Google D
 3. Read the contracts you own or consume in [docs/02-contracts/](docs/02-contracts/). **Contracts freeze on Day 3 (Sun 4 Oct).**
 4. Copy `.env.example` to `.env` and fill in your own keys. Never commit `.env`.
 
+## Work in parallel: shared fixtures, stubs and tests
+Nobody has to wait for anyone else's code. Everything below works from a fresh clone.
+
+| Need | Use | Command |
+|---|---|---|
+| Data to build against | [fixtures/](fixtures/): 5 personas, 18 documents across the four sources, scripted events, 9 golden cases | `make fixtures` regenerates `company_a.json` |
+| A connector to call (B) | `connectors/stub/fixture_connector.py` implements the [connector interface](docs/02-contracts/connector-interface.md) | |
+| A Brain API to call (C) | `brain/stub_api/`: stub of the [HTTP API](docs/02-contracts/api.md); auth header `Authorization: Bearer dev:priya` | `make stub-api` |
+| A database (A, B) | Postgres + pgvector with the draft schema in `db/init.sql` | `make db-up` |
+| Tests that keep us honest | `connectors/tests/contract/` (every connector must pass), `evals/` (golden cases, security properties) | `make test` |
+
+First time: `make setup`, then `make test`. CI runs lint and the same tests on every pull request.
+When your real piece is ready, register it in the contract tests and point the golden runner at it; the stubs stay as the reference.
+
 ## Doc map
 | Doc | What it is |
 |---|---|

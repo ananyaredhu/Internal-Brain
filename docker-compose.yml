@@ -1,0 +1,21 @@
+# Local development database: Postgres with pgvector, schema from db/init.sql.
+# Start: docker compose up -d      Stop: docker compose down      Reset: docker compose down -v
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: brain
+      POSTGRES_PASSWORD: brain          # local dev only, never reuse
+      POSTGRES_DB: brain
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U brain"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  dbdata:
