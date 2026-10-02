@@ -1,6 +1,6 @@
 # Workstream C · Experience and proof
 
-**Owner:** _name / GitHub handle_ · **Directories:** `ui/`, `evals/`, `deploy/` · **Status file:** [status/ws-c.md](../status/ws-c.md)
+**Owner:** Guanyue ([@guanyue017-dev](https://github.com/guanyue017-dev)) · **Directories:** `ui/`, `evals/`, `deploy/` · **Status file:** [status/ws-c.md](../status/ws-c.md)
 
 ## Mission
 Make it usable, testable, deployed and submittable. Own the demo, the zero-leak proof and the paperwork, including the CodeBuddy/WorkBuddy proof log.

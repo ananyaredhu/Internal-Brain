@@ -1,13 +1,13 @@
-# Replace the placeholders with real GitHub handles.
-# A = sources, B = brain, C = experience.
-/connectors/              @handle-a
-/simulators/              @handle-a
-/brain/                   @handle-b
-/mcp_server/              @handle-b
-/ui/                      @handle-c
-/evals/                   @handle-c
-/deploy/                  @handle-c
+# A = Praew, B = Ananya, C = Guanyue.
+
+/connectors/              @watersalamander
+/simulators/              @watersalamander
+/brain/                   @ananyaredhu
+/mcp_server/              @ananyaredhu
+/ui/                      @guanyue017-dev
+/evals/                   @guanyue017-dev
+/deploy/                  @guanyue017-dev
 
 # Shared contracts and decisions need all three.
-/docs/02-contracts/       @handle-a @handle-b @handle-c
-/docs/05-decisions/       @handle-a @handle-b @handle-c
+/docs/02-contracts/       @watersalamander @ananyaredhu @guanyue017-dev
+/docs/05-decisions/       @watersalamander @ananyaredhu @guanyue017-dev

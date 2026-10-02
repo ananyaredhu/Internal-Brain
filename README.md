@@ -11,9 +11,9 @@ A permission-aware AI knowledge system over Confluence, Jira, Slack and Google D
 2. Open your workstream file and pick the first unchecked task:
    | Workstream | Owner | File |
    |---|---|---|
-   | **A** Sources and freshness | _name / GitHub handle_ | [ws-a-sources.md](docs/03-workstreams/ws-a-sources.md) |
-   | **B** Brain and policy | _name / GitHub handle_ | [ws-b-brain.md](docs/03-workstreams/ws-b-brain.md) |
-   | **C** Experience and proof | _name / GitHub handle_ | [ws-c-experience.md](docs/03-workstreams/ws-c-experience.md) |
+   | **A** Sources and freshness | Praew ([@watersalamander](https://github.com/watersalamander)) | [ws-a-sources.md](docs/03-workstreams/ws-a-sources.md) |
+   | **B** Brain and policy | Ananya ([@ananyaredhu](https://github.com/ananyaredhu)) | [ws-b-brain.md](docs/03-workstreams/ws-b-brain.md) |
+   | **C** Experience and proof | Guanyue ([@guanyue017-dev](https://github.com/guanyue017-dev)) | [ws-c-experience.md](docs/03-workstreams/ws-c-experience.md) |
 3. Read the contracts you own or consume in [docs/02-contracts/](docs/02-contracts/). **Contracts freeze on Day 3 (Sun 4 Oct).**
 4. Copy `.env.example` to `.env` and fill in your own keys. Never commit `.env`.
 

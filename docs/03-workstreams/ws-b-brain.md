@@ -1,6 +1,6 @@
 # Workstream B · Brain and policy
 
-**Owner:** _name / GitHub handle_ · **Directories:** `brain/`, `mcp_server/` · **Status file:** [status/ws-b.md](../status/ws-b.md)
+**Owner:** Ananya ([@ananyaredhu](https://github.com/ananyaredhu)) · **Directories:** `brain/`, `mcp_server/` · **Status file:** [status/ws-b.md](../status/ws-b.md)
 
 ## Mission
 Turn authorized chunks into trustworthy, cited answers. Own the policy decision point, the query pipeline, the checker, the audit chain, the skills and the MCP server.

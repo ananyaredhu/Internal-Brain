@@ -1,6 +1,6 @@
 # Workstream A · Sources and freshness
 
-**Owner:** _name / GitHub handle_ · **Directories:** `connectors/`, `simulators/` · **Status file:** [status/ws-a.md](../status/ws-a.md)
+**Owner:** Praew ([@watersalamander](https://github.com/watersalamander)) · **Directories:** `connectors/`, `simulators/` · **Status file:** [status/ws-a.md](../status/ws-a.md)
 
 ## Mission
 Get real data, with faithful permissions, from the four platforms into the index quickly and correctly. Own freshness end to end.
