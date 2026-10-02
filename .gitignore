@@ -1,0 +1,38 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials*.json
+token*.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# node
+node_modules/
+dist/
+.next/
+
+# data and models
+*.sqlite
+*.db
+data/local/
+models/
+*.gguf
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/
+
+# raw, unchecked screenshots (check for secrets, then move to docs/proof/)
+screenshots-raw/
