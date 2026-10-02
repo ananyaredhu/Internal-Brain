@@ -1,7 +1,7 @@
 .PHONY: setup test lint fixtures stub-api db-up db-down
 
-setup:            ## create a venv and install dev dependencies
-	python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+setup:            ## create a venv, install dev dependencies, enable the secret-scan hook
+	python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt && .venv/bin/pre-commit install
 
 test:             ## run contract tests and golden tests
 	.venv/bin/python -m pytest

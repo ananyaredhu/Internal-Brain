@@ -15,7 +15,7 @@ A permission-aware AI knowledge system over Confluence, Jira, Slack and Google D
    | **B** Brain and policy | Ananya ([@ananyaredhu](https://github.com/ananyaredhu)) | [ws-b-brain.md](docs/03-workstreams/ws-b-brain.md) |
    | **C** Experience and proof | Guanyue ([@guanyue017-dev](https://github.com/guanyue017-dev)) | [ws-c-experience.md](docs/03-workstreams/ws-c-experience.md) |
 3. Read the contracts you own or consume in [docs/02-contracts/](docs/02-contracts/). **Contracts freeze on Day 3 (Sun 4 Oct).**
-4. Copy `.env.example` to `.env` and fill in your own keys. Never commit `.env`.
+4. Run `make setup` then `make test` (see "Work in parallel" below; Windows commands are there too). Copy `.env.example` to `.env` and fill in your own keys. Never commit `.env`.
 
 ## Work in parallel: shared fixtures, stubs and tests
 Nobody has to wait for anyone else's code. Everything below works from a fresh clone.
@@ -28,7 +28,18 @@ Nobody has to wait for anyone else's code. Everything below works from a fresh c
 | A database (A, B) | Postgres + pgvector with the draft schema in `db/init.sql` | `make db-up` |
 | Tests that keep us honest | `connectors/tests/contract/` (every connector must pass), `evals/` (golden cases, security properties) | `make test` |
 
-First time: `make setup`, then `make test`. CI runs lint and the same tests on every pull request.
+First time: `make setup` (creates `.venv`, installs dependencies, enables the secret-scan hook), then `make test`. CI runs lint and the same tests on every pull request. Needs Python 3.10 or newer (3.12 recommended).
+
+No `make` (for example on Windows)? Run the same steps by hand from the project root:
+```
+python -m venv .venv
+.venv\Scripts\pip install -r requirements-dev.txt
+.venv\Scripts\pre-commit install
+.venv\Scripts\python -m pytest
+```
+(On macOS or Linux, replace `.venv\Scripts\` with `.venv/bin/`.)
+
+**PyCharm:** run these in the built-in Terminal at the project root. Then set the interpreter to the new `.venv` (Settings, Project, Python Interpreter, Add Interpreter, Existing, `.venv/bin/python`) and set Tools, Python Integrated Tools, Default test runner to pytest.
 When your real piece is ready, register it in the contract tests and point the golden runner at it; the stubs stay as the reference.
 
 ## Doc map
