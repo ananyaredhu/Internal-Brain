@@ -1,0 +1,74 @@
+# Workstream A · Sources and freshness
+
+**Owner:** _name / GitHub handle_ · **Directories:** `connectors/`, `simulators/` · **Status file:** [status/ws-a.md](../status/ws-a.md)
+
+## Mission
+Get real data, with faithful permissions, from the four platforms into the index quickly and correctly. Own freshness end to end.
+
+## Scope
+- **Real connectors:** Slack (free workspace, custom internal app, Events API) and Google Drive (several free Google accounts, per-user OAuth, `changes.watch`).
+- **Simulators:** Confluence and Jira with faithful permission semantics (a real free Atlassian tenant optionally for content and webhooks only). Optional Slack/Drive simulators for scale and attack tests.
+- **ACL evaluators** per source, identity mapping, `check_access`.
+- **Ingestion service:** consumes `list_changes` (webhooks plus poll fallback), chunks, embeds (local bge-m3), writes chunks with ACL tokens to Postgres.
+- **Seed data** for fictional "Company A" and a large-scale generator (12k+ Confluence pages, 200+ Slack channels).
+- **Contract tests** run against both real and simulated backends.
+
+## Owns (produces)
+[connector-interface](../02-contracts/connector-interface.md) and the ACL evaluators in [acl-model](../02-contracts/acl-model.md); the `chunks` table schema; simulator admin endpoints (revoke, restrict, edit, add/remove hidden docs).
+
+## Consumes
+- Audit-event schema (emit `acl_change_observed`): from B.
+- Embedding backend choice: [ADR-002](../05-decisions/ADR-002-embeddings.md).
+
+## Tasks and schedule
+Day 1 = Fri 2 Oct. Day 3 = contracts freeze. Day 8 = demoable build.
+
+### Days 1 to 2 (Fri 2 to Sat 3 Oct)
+- [ ] Create the Slack workspace and a custom internal app; verify rate limits for an internal app (check #3 in [06-risks](../06-risks-and-checks.md))
+- [ ] Create 4 to 5 Google accounts for personas; set up OAuth client; verify `changes.watch` reaches a webhook (check #4)
+- [ ] Decide the Atlassian approach: trial window, sandbox, or simulator only (check #5)
+- [ ] Design the "Company A" seed corpus and personas (Priya, Sam, Dana, Jordan, manager); write it down in `docs/` for the team
+- [ ] Draft contract changes you need (PRs to `docs/02-contracts/`)
+
+### Day 3 (Sun 4 Oct): contracts freeze
+- [ ] Ship connector and ingestion **stubs** that return fixture data matching the contracts
+- [ ] Postgres schema for `chunks` (pgvector, FTS, GIN on `acl_tokens`) agreed with B
+
+### Days 3 to 5 (Sun 4 to Tue 6 Oct)
+- [ ] Slack connector: public/private channels, membership, threads, DMs; Events API plus poll fallback; `check_access` via channel membership
+- [ ] Drive connector: folders, files, sharing roles, inheritance, shared drives, external sharing; `changes.watch`; `check_access` via permissions API
+- [ ] Confluence simulator: spaces, nested pages, space permissions, inherited page restrictions, webhooks, REST shapes similar to the real API
+- [ ] Jira simulator: projects, role schemes, groups, **issue security levels**, issues with links, webhooks
+
+### Days 5 to 7 (Tue 6 to Thu 8 Oct)
+- [ ] Identity mapping across platforms (`resolve_identity`); fail closed when unmapped
+- [ ] Ingestion service: chunking, local bge-m3 embedding (store model and version), ACL tokens, deletes, `acl_change` handling
+- [ ] Seed Company A data in all four sources, including the scenario fixtures (breach report in a security-only space, private channel, runbook, DB-migration project, auth-service thread)
+
+### Day 8 (Fri 9 Oct): demoable build
+- [ ] Data flows from all four sources into the index with correct ACL tokens
+- [ ] Simulator admin actions work (revoke, restrict, edit)
+
+### Days 9 to 10 (Sat 10 to Sun 11 Oct)
+- [ ] Contract tests pass on real and simulated backends (inheritance, revocation, edit, negative case)
+- [ ] Scale seed generator: 12k+ pages, 200+ channels; measure ingestion throughput
+- [ ] Measure and expose freshness lag (`freshness_lag_seconds`, p50/p95)
+
+### Days 11 to 12 (Mon 12 to Tue 13 Oct)
+- [ ] Hidden-document add/remove/edit tooling for Leak-CI (with C)
+- [ ] Webhook and poll hardening, rate-limit back-off, retries
+- [ ] Support B on revocation-to-enforcement timing measurement
+
+### Days 13 to 15 (Wed 14 to Fri 16 Oct)
+- [ ] Bug fixes, final data reset, deployment support, `simulators/README.md`
+
+## Definition of done
+- All four connectors pass the shared contract tests.
+- A revocation in any source flips `check_access` to deny and emits `acl_change` within the SLA.
+- A content edit appears in the index within the SLA (target: under 5 minutes for events, under 1 hour worst case).
+- No credentials in the repo; read-only scopes only.
+
+## Watch-outs
+- Do not flatten permission semantics. Keep native evidence in `AclEvidence.native`.
+- `check_access` fails closed on errors and timeouts.
+- Slack free-plan history and rate limits: confirm early. Atlassian free plan lacks the permission features we need.
