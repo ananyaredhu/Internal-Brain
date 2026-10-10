@@ -102,6 +102,8 @@ Then open https://github.com/ananyaredhu/Internal-Brain, click **Compare & pull 
 
 ## Troubleshooting
 - **`python` opens the Microsoft Store**: Python is not on PATH. Reinstall and tick "Add python.exe to PATH".
+- **`.venv\Scripts\pip : unable to load module ".venv"` / `CommandNotFoundException`**: the file does not exist. Either you are not inside `Internal-Brain` (the prompt must end in `\Internal-Brain>`; `cd` there), or the venv step failed earlier (see the next item). Delete any `.venv` created in the wrong folder.
+- **`Command '[... python.exe, -m, ensurepip ...]' returned non-zero exit status 1`** when creating the venv: the venv has no pip. Usual cause is a user folder with non-ASCII characters in the temp path. Retry with a plain temp folder for this window: `mkdir D:\tmp; $env:TEMP="D:\tmp"; $env:TMP="D:\tmp"; Remove-Item -Recurse -Force .venv; python -m venv .venv`. If `python -m pip --version` errors too, rerun the Python installer, choose Modify, and tick pip under Optional Features.
 - **`running scripts is disabled on this system`**: you ran `Activate.ps1`. Not needed; use the `.venv\Scripts\...` paths above.
 - **Port 8000 or 5173 already in use**: close the other window using it, or run the stub with `--port 8020` and the UI with `$env:API_TARGET="http://localhost:8020"; npm run dev:demo`.
 - **UI shows "unreachable" banners**: window 1 (the stub) is not running.
